@@ -31,31 +31,48 @@ E2 = interp1(IllA(:,1),IllA(:,2),resol,'cubic')';
     
 L2 = diag(E2)*R;
 %%
+% Instead of using gray, calculate the MMV of a macbeth patch using
+% Mackiewicz algorithm
 refl_gr = .5*ones(size(E1))'; %.5 grey reflectance
-ros = refl_gr*diag(E1)*R;
-ros2 = refl_gr*diag(E2)*R;
-ns = 10^6;   %number of samples for spherical sampling
-rngset = rng;
 
-ort_flag = 1;%[0 or 1]; see [1], Fig. 2 - orthonormal or standard sensors
+% Read in Macbeth data in interpolate
+macbeth_data = readmatrix('data/macbeth_reflectances.csv', 'NumHeaderLines', 1);
+macbeth_patches = interp1(macbeth_data(:,1),macbeth_data(:,2:end),resol,'cubic');
+refl_gr = [refl_gr; macbeth_patches'];
 
-%returns half-space representation of 6-D Object Colour Solid
-[IneqCon,bIneqCon]=objectColSol_sphericalSampling([L1,L2],ns,rngset,ort_flag);
+% Plot all color mmvs together in one figure
+figure;
+hold on;
 
-% intersection with equality constraint
-[IneqCon,bIneqCon] = normalise_rows(IneqCon,bIneqCon);
-EqCon = [1 0 0 0 0 0;0 1 0 0 0 0;0 0 1 0 0 0];
+for i = 1:size(refl_gr,1)
 
-bEq = ros'; % we will calculate MMV for 0.5 grey
-NullEqCon = null(EqCon);
-    
-x0=EqCon\bEq;
-NewCon=IneqCon*NullEqCon;
-bNew=bIneqCon-IneqCon*x0;
+    ros = refl_gr(i,:)*diag(E1)*R;
+    ros2 = refl_gr(i,:)*diag(E2)*R;
 
-%calculates vertices of half-space intersection
-vertices = calculateIntersectionVertices([NewCon,-bNew],ros2');
-    
-figure
-[hull,v]=convhulln(vertices,{'Qt','C0.001'});
-trisurf(hull,vertices(:,1),vertices(:,2),vertices(:,3));
+    ns = 10^6;   %number of samples for spherical sampling
+    rngset = rng;
+
+    ort_flag = 1;%[0 or 1]; see [1], Fig. 2 - orthonormal or standard sensors
+
+    %returns half-space representation of 6-D Object Colour Solid
+    [IneqCon,bIneqCon]=objectColSol_sphericalSampling([L1,L2],ns,rngset,ort_flag);
+
+    % intersection with equality constraint
+    [IneqCon,bIneqCon] = normalise_rows(IneqCon,bIneqCon);
+    EqCon = [1 0 0 0 0 0;0 1 0 0 0 0;0 0 1 0 0 0];
+
+    bEq = ros'; % we will calculate MMV for 0.5 grey
+    NullEqCon = null(EqCon);
+
+    x0=EqCon\bEq;
+    NewCon=IneqCon*NullEqCon;
+    bNew=bIneqCon-IneqCon*x0;
+
+    %calculates vertices of half-space intersection
+    vertices = calculateIntersectionVertices([NewCon,-bNew],ros2');
+
+    [hull,v]=convhulln(vertices,{'Qt','C0.001'});
+    trisurf(hull,vertices(:,1),vertices(:,2),vertices(:,3));
+end
+
+hold off;
