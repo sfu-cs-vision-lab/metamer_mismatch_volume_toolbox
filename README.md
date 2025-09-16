@@ -8,12 +8,27 @@ Any research publications which use any components of this toolbox in
 either original or modified form should cite [1] and [2]:
 
 ```
-[1] Michal Mackiewicz, Hans Jakob Rivertz, and Graham Finlayson, 
-"Spherical sampling methods for the calculation of metamer mismatch
-volumes," J. Opt. Soc. Am. A 36, 96-104 (2019)
+@article{mackiewicz2018spherical,
+  title={Spherical sampling methods for the calculation of metamer mismatch volumes},
+  author={Mackiewicz, Michal and Rivertz, Hans Jakob and Finlayson, Graham},
+  journal={Journal of the Optical Society of America A},
+  volume={36},
+  number={1},
+  pages={96--104},
+  year={2018},
+  publisher={Optical Society of America}
+}
 
-[2] Graham D. Finlayson and Peter Morovic, "Metamer sets," J. Opt. Soc.
-Am. A 22, 810-819 (2005) 
+@article{finlayson2005metamer,
+  title={Metamer sets},
+  author={Finlayson, Graham D and Morovic, Peter},
+  journal={Journal of the Optical Society of America A},
+  volume={22},
+  number={5},
+  pages={810--819},
+  year={2005},
+  publisher={Optical Society of America}
+}
 ```
 
 Michal Mackiewicz, University of East Anglia, 2021
