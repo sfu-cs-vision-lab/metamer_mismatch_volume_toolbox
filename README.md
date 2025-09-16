@@ -5,7 +5,7 @@
 This toolbox is available under [GNU General Public version 3 license](LICENSE).
 
 Any research publications which use any components of this toolbox in
-either original or modified form should cite [1] and [2]:
+either original or modified form should cite:
 
 ```
 @article{mackiewicz2018spherical,
@@ -18,7 +18,9 @@ either original or modified form should cite [1] and [2]:
   year={2018},
   publisher={Optical Society of America}
 }
-
+```
+and
+```
 @article{finlayson2005metamer,
   title={Metamer sets},
   author={Finlayson, Graham D and Morovic, Peter},
